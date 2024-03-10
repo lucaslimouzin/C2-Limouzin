@@ -36,6 +36,14 @@ class TeamGenerator {
   getTeams() {
     return this.teams;
   }
+
+  //nouvelle fonctionnalité
+  assignCaptains() {
+    this.teams.forEach(team => {
+      const randomIndex = Math.floor(Math.random() * team.players.length);
+      team.captain = team.players[randomIndex];
+    });
+  }
 }
 
 export default  TeamGenerator
