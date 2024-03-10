@@ -76,3 +76,34 @@ function testFairDistributionOfPlayers() {
 
 // Exécuter le test
 testFairDistributionOfPlayers();
+
+//tdd
+//nouvelle fonctionnalité
+// teamGenerator.test.js
+
+// Test pour vérifier que chaque équipe a un capitaine désigné
+function testTeamHasACaptain() {
+  console.log("Test: chaque équipe a un capitaine");
+
+  // Préparation
+  const players = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi'];
+  const playersPerTeam = 3;
+  const teamGenerator = new TeamGenerator(players, playersPerTeam);
+
+  // Action
+  teamGenerator.generateTeams();
+  teamGenerator.assignCaptains(); 
+  const teams = teamGenerator.getTeams();
+
+  // Vérification
+  let everyTeamHasACaptain = teams.every(team => team.captain !== undefined);
+
+  if (!everyTeamHasACaptain) {
+    throw new Error("Échec du test : Pas toutes les équipes ont un capitaine.");
+  }
+
+  console.log("Succès du test : Chaque équipe a un capitaine désigné.");
+}
+
+// Exécuter le test
+testTeamHasACaptain();
