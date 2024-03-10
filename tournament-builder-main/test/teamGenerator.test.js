@@ -37,3 +37,37 @@ function testGenerateTeams() {
 
 // Exécuter le test
 testGenerateTeams();
+
+//test TDD
+// Test pour vérifier que chaque équipe a un nombre équitable de joueurs
+function testFairDistributionOfPlayers() {
+  console.log("Test: Fair Distribution Of Players");
+
+  // Préparation
+  const players = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi'];
+  const playersPerTeam = 3;
+  const teamGenerator = new TeamGenerator(players, playersPerTeam);
+
+  // Action
+  teamGenerator.generateTeams();
+  const teams = teamGenerator.getTeams();
+
+  // Vérification
+  // Vérifie que chaque équipe a le même nombre de joueurs, sauf peut-être la dernière
+  const expectedPlayerCount = Math.floor(players.length / teams.length);
+  let isFairDistribution = teams.every((team, index) => {
+    if (index === teams.length - 1 && players.length % teams.length !== 0) {
+      return team.players.length >= expectedPlayerCount - 1 && team.players.length <= expectedPlayerCount;
+    }
+    return team.players.length === expectedPlayerCount;
+  });
+
+  if (!isFairDistribution) {
+    throw new Error("Échec du test : La répartition des joueurs n'est pas équitable.");
+  }
+
+  console.log("Succès du test : Les joueurs sont répartis équitablement en équipes.");
+}
+
+// Exécuter le test
+testFairDistributionOfPlayers();
