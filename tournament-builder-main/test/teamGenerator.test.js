@@ -107,3 +107,30 @@ function testTeamHasACaptain() {
 
 // Exécuter le test
 testTeamHasACaptain();
+
+// Test pour vérifier que le capitaine est un membre de l'équipe
+function testCaptainIsAMemberOfTheTeam() {
+  console.log("Test: Le capitaine est un membre de l'équipe");
+
+  // Préparation
+  const players = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi'];
+  const playersPerTeam = 3;
+  const teamGenerator = new TeamGenerator(players, playersPerTeam);
+
+  // Action
+  teamGenerator.generateTeams();
+  teamGenerator.assignCaptains();
+  const teams = teamGenerator.getTeams();
+
+  // Vérification
+  let captainIsMemberOfTeam = teams.every(team => team.players.includes(team.captain));
+
+  if (!captainIsMemberOfTeam) {
+    throw new Error("Échec du test : Le capitaine n'est pas un membre de son équipe.");
+  }
+
+  console.log("Succès du test : Chaque capitaine est un membre de son équipe.");
+}
+
+// Exécuter le test
+testCaptainIsAMemberOfTheTeam();
