@@ -5,19 +5,31 @@ class TeamGenerator {
     this.teams = [];
   }
 
-  generateTeams() {
-    let shuffledPlayers = [...this.players].sort(() => 0.5 - Math.random()); // Mélange aléatoire des joueurs
-    let teamIndex = 0;
+   generateTeams() {
+    let shuffledPlayers = [...this.players].sort(() => 0.5 - Math.random());
+    let playersRemaining = shuffledPlayers.length;
 
-    while (shuffledPlayers.length > 0) {
-      let teamPlayers = shuffledPlayers.splice(0, this.playersPerTeam);
-      let teamName = `Équipe ${teamIndex + 1}`;
+    while (playersRemaining > 0) {
+      let teamSize = this.playersPerTeam;
+      
+      // Si le nombre restant de joueurs est suffisant pour au moins une demi-équipe mais moins qu'une équipe complète,
+      // ajustez la taille de la dernière équipe pour inclure tous les joueurs restants.
+      if (playersRemaining < this.playersPerTeam && playersRemaining >= Math.ceil(this.playersPerTeam / 2)) {
+        teamSize = playersRemaining;
+      } else if (playersRemaining < Math.ceil(this.playersPerTeam / 2)) {
+        // Si moins de la moitié de 'playersPerTeam' reste, ajoutez-les à la dernière équipe créée.
+        this.teams[this.teams.length - 1].players.push(...shuffledPlayers);
+        break;
+      }
+      
+      let teamPlayers = shuffledPlayers.splice(0, teamSize);
+      let teamName = `Équipe ${this.teams.length + 1}`;
       let team = {
         name: teamName,
         players: teamPlayers,
       };
       this.teams.push(team);
-      teamIndex++;
+      playersRemaining -= teamSize;
     }
   }
 

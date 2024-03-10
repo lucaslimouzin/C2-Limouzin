@@ -45,7 +45,7 @@ function testFairDistributionOfPlayers() {
 
   // Préparation
   const players = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi'];
-  const playersPerTeam = 3;
+  const playersPerTeam = 3; // Vous avez 8 joueurs et vous voulez 3 joueurs par équipe.
   const teamGenerator = new TeamGenerator(players, playersPerTeam);
 
   // Action
@@ -53,13 +53,17 @@ function testFairDistributionOfPlayers() {
   const teams = teamGenerator.getTeams();
 
   // Vérification
-  // Vérifie que chaque équipe a le même nombre de joueurs, sauf peut-être la dernière
-  const expectedPlayerCount = Math.floor(players.length / teams.length);
+  // Vous attendez 2 équipes pleines et une équipe avec 2 joueurs (8 joueurs au total, 3 par équipe).
+  const expectedFullTeamsCount = Math.floor(players.length / playersPerTeam);
+  const expectedPlayersInLastTeam = players.length % playersPerTeam;
+
   let isFairDistribution = teams.every((team, index) => {
-    if (index === teams.length - 1 && players.length % teams.length !== 0) {
-      return team.players.length >= expectedPlayerCount - 1 && team.players.length <= expectedPlayerCount;
+    // Pour toutes les équipes sauf la dernière
+    if (index < expectedFullTeamsCount) {
+      return team.players.length === playersPerTeam;
     }
-    return team.players.length === expectedPlayerCount;
+    // Pour la dernière équipe
+    return team.players.length === expectedPlayersInLastTeam;
   });
 
   if (!isFairDistribution) {
@@ -68,6 +72,7 @@ function testFairDistributionOfPlayers() {
 
   console.log("Succès du test : Les joueurs sont répartis équitablement en équipes.");
 }
+
 
 // Exécuter le test
 testFairDistributionOfPlayers();
