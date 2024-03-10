@@ -134,3 +134,32 @@ function testCaptainIsAMemberOfTheTeam() {
 
 // Exécuter le test
 testCaptainIsAMemberOfTheTeam();
+
+// Test pour vérifier que chaque capitaine est unique à son équipe
+function testCaptainsAreUniqueAcrossTeams() {
+  console.log("Test: Chaque capitaine est unique à son équipe");
+
+  // Préparation
+  const players = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi'];
+  const playersPerTeam = 3;
+  const teamGenerator = new TeamGenerator(players, playersPerTeam);
+
+  // Action
+  teamGenerator.generateTeams();
+  teamGenerator.assignCaptains();
+  const teams = teamGenerator.getTeams();
+
+  // Vérification
+  const captains = teams.map(team => team.captain);
+  const uniqueCaptains = new Set(captains);
+  let captainsAreUnique = uniqueCaptains.size === teams.length;
+
+  if (!captainsAreUnique) {
+    throw new Error("Échec du test : Un capitaine est assigné à plusieurs équipes.");
+  }
+
+  console.log("Succès du test : Chaque capitaine est unique à son équipe.");
+}
+
+// Exécuter le test
+testCaptainsAreUniqueAcrossTeams();
